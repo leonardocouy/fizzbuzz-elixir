@@ -1,18 +1,10 @@
 defmodule Fizzbuzz do
-  @moduledoc """
-  Documentation for `Fizzbuzz`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Fizzbuzz.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def build(filename) do
+    filename
+    |> File.read()
+    |> handle_file()
   end
+
+  def handle_file({:ok, content}), do: String.trim(content)
+  def handle_file({:error, reason}), do: reason
 end
