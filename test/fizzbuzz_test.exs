@@ -1,11 +1,20 @@
 defmodule FizzbuzzTest do
   use ExUnit.Case
 
+  setup_all do
+    path = "test.txt"
+
+    File.write!(path, "1,2,3,4,5,10,15,20")
+    on_exit(fn -> File.rm!(path) end)
+
+    {:ok, file_path: path}
+  end
+
   describe "build/1" do
-    test "when a valid file is provided, returns the converted list" do
+    test "when a valid file is provided, returns the converted list", %{file_path: file_path} do
       expected_response = {:ok, [1, 2, :fizz, 4, :buzz, :buzz, :fizzbuzz, :buzz]}
 
-      assert Fizzbuzz.build("numbers.txt") == expected_response
+      assert Fizzbuzz.build(file_path) == expected_response
     end
 
     test "when invalid file is provided, returns error" do
